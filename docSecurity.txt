@@ -1,0 +1,106 @@
+Authentication...Security related docs...
+------=====-----
+Your folder structure now:
+project/
+├── config/
+│   └── database.js
+├── controllers/
+│   └── userController.js
+├── middleware/
+│   └── hashPassword.js
+├── models/
+│   └── userModel.js
+├── routes/
+│   └── userRoutes.js
+├── .env
+└── index.js
+
+------------
+
+হ্যাঁ, একসাথে ব্যবহার করা উচিত
+✔️ bcrypt → password security
+✔️ JWT → authentication & route protection
+-------
+
+ ✅ bcryptjs এর কাজ কী?
+
+👉 Password hash করা
+👉 Login সময় password compare করা
+
+📌 কখন ব্যবহার করবো?
+
+User registration সময় → password hash
+
+User login সময় → password মিলিয়ে দেখা
+
+-----
+
+ ✅ jsonwebtoken (JWT) এর কাজ কী?
+
+👉 Login success হলে token generate করা
+👉 Protected route এ token verify করা
+
+📌 কখন ব্যবহার করবো?
+
+Login success হওয়ার পর
+
+Protected API call করার সময়
+
+-------
+
+দুটো একসাথে কীভাবে কাজ করে?
+
+🔁 Full Authentication Flow
+
+📝 Step 1: Registration
+
+            User password দেয়
+
+            bcryptjs দিয়ে hash করে DB তে save
+
+🔐 Step 2: Login
+
+        User password দেয়
+
+        bcrypt.compare() দিয়ে check
+
+        ঠিক হলে jwt.sign() দিয়ে token বানানো
+
+🛡️ Step 3: Protected Route
+
+        Client token পাঠায়
+
+        jwt.verify() দিয়ে check
+
+        Valid হলে access দেয়
+
+
+        ---------
+
+পার্থক্য
+বিষয়	        bcryptjs	                  JWT
+কাজ	           Password secure করা	          User authenticate করা
+কখন লাগে	    Registration & Login	      Login এর পর
+DB তে যায়?	    Hash যায়	                   Token সাধারণত যায় না (client এ থাকে)
+
+
+--------------
+
+সহজ উদাহরণ
+
+🔐 bcryptjs = তালা (password লুকিয়ে রাখে)
+
+🔑 JWT = চাবি (login এর পর access দেয়)
+
+-----
+ 
+const salt = await bcrypt.genSalt(10);
+
+ ✅ Salt আসলে কী?
+
+👉 Salt হলো একটা random string
+👉 যেটা password এর সাথে যোগ করে তারপর hash করা হয়
+
+----------
+
+

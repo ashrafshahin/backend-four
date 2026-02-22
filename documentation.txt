@@ -71,6 +71,36 @@ require('dotenv').config();
 
 -------
 
+1. Wrong MONGO_URI in .env — most likely cause
+# make sure it looks exactly like this
+MONGO_URI=mongodb+srv://yourUsername:yourPassword@cluster0.xxxxx.mongodb.net/mydb
 
+# common mistakes:
+# - forgot to replace <password> with actual password
+# - space somewhere in the string
+# - wrong username or password
 
+-------
 
+2. Make sure dotenv is configured in index.js BEFORE connectDB
+
+jsconst dotenv = require('dotenv');
+dotenv.config();                        // ✅ must be first
+
+const connectDB = require('./config/db');
+connectDB();
+
+-------
+
+3. IP not whitelisted on Atlas
+
+Go to Atlas → Network Access
+Make sure you see 0.0.0.0/0 (allow all) in the list
+If not, click Add IP Address → Allow Access From Anywhere
+
+4. Check if you actually see "MongoDB Connected" in terminal
+
+If you see it → problem is in your .env URI
+If you don't see it → problem is IP or credentials
+
+---------
