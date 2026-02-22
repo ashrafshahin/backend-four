@@ -1,0 +1,76 @@
+----
+**Your folder structure should look like this:**
+```
+project/
+├── config/
+│   └── db.js
+├── controllers/
+│   └── userController.js
+├── models/
+│   └── userModel.js
+├── routes/
+│   └── userRoutes.js
+├── .env
+└── server.js
+
+
+-------
+
+
+
+timestamps: true দিলে Mongoose automaticভাবে দুইটা field যোগ করে:
+createdAt
+updatedAt
+=>for example:
+const mongoose = require('mongoose');
+const userSchema = new mongoose.Schema({
+  name: String,
+  email: String
+}, { timestamps: true });
+=>results
+{
+  name: "Rahim",
+  email: "rahim@gmail.com",
+  createdAt: 2026-02-20T10:00:00.000Z,
+  updatedAt: 2026-02-20T10:00:00.000Z
+}
+
+--------
+
+mongodb://localhost:27017/mydb
+অংশ	মানে
+mongodb://	এটা MongoDB protocol
+localhost	তোমার নিজের কম্পিউটার (local machine)
+27017	MongoDB এর default port
+mydb	Database এর নাম
+
+--------
+
+
+খুব গুরুত্বপূর্ণ ⚠️
+
+.gitignore ফাইলে এটা যোগ করো:
+
+.env
+
+তাহলে GitHub এ .env যাবে না।
+
+
+--------
+
+
+কীভাবে করবে (Step by Step)
+1️⃣ প্রজেক্ট রুটে .env ফাইল বানাও
+MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/mydatabase
+PORT=5000
+
+⚠️ এখানে তোমার আসল MongoDB Atlas URL বসাবে।
+
+2️⃣ server.js বা index.js এ উপরে লিখো
+require('dotenv').config();
+
+-------
+
+
+
+
