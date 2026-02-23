@@ -12,6 +12,9 @@ app.use(express.json()); // to read req.body
 const userRoutes = require('./routes/userRoutes')
 app.use('/api/users', userRoutes)
 
+const authRoutes = require('./routes/authRoutes')
+app.use('/api/auth', authRoutes )
+
 // user.save()
 // res.send()
 app.listen(3000, () => {

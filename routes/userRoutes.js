@@ -1,23 +1,27 @@
 const express = require('express');
+
 const { getUsers, getUsersById, createUser, updateUser, deleteUser } = require('../controllers/userController');
+
 const router = express.Router()
-const hashPassword = require('../middlewares/hashPassword')
+
+const hashPassword = require('../middlewares/hashPassword');
+const protect = require('../middlewares/authMiddleware');
 
 
 // GET all users 1 - c'R'ud
 router.get('/', getUsers);
 
 // GET single user 2 - c'R'ud
-router.get('/:id', getUsersById);
+router.get('/:id',protect, getUsersById);
 
 // POST create user 3 - 'C'rud
 router.post('/', hashPassword, createUser); // ✅ hash before create
 
 // PUT update user 4
-router.put('/:id', hashPassword, updateUser); // ✅ hash before update
+router.put('/:id', hashPassword, protect, updateUser); // ✅ hash before update
 
 // DELETE user 5
-router.delete('/:id', deleteUser);
+router.delete('/:id', protect, deleteUser);
 
 
 // controller er modhe check and message kora ase tai aita r lagtese naa...

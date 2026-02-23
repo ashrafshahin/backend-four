@@ -1,0 +1,134 @@
+
+
+Your final folder structure:
+
+project/
+├── config/
+│   └── db.js
+├── controllers/
+│   └── userController.js
+│   └── authController.js
+├── middleware/
+│   └── hashPassword.js
+│   └── authMiddleware.js
+├── models/
+│   └── userModel.js
+├── routes/
+│   └── userRoutes.js
+│   └── authRoutes.js
+├── .env
+└── server.js
+
+---------
+এই ?. কেন ব্যবহার করা হয়েছে?
+req.headers.authorization?.split(' ')
+
+এই ?. হলো optional chaining
+
+মানে:
+
+👉 যদি authorization না থাকে
+→ তাহলে error না দিয়ে undefined রিটার্ন করবে
+
+না হলে crash করত ❌
+
+-----------
+
+explanation of   .split(' ')[1];
+
+Server এ এটা এমনভাবে পাওয়া যায়: req.headers.authorization
+এর value হবে: "Bearer abc123token"
+লক্ষ্য করো — এখানে দুইটা শব্দ আছে
+Bearer + abc123token
+মাঝখানে একটা space আছে
+
+split(' ') মানে: যেখানে যেখানে space আছে সেখানে কেটে array বানাও
+
+for Example: "Bearer abc123token".split(' ')
+Result হবে: ["Bearer", "abc123token"]
+
+মানে:
+
+Index	Value
+0	    "Bearer"
+1	    "abc123token"
+🔹 তাহলে [1] কেন?
+
+কারণ আমরা শুধু token চাই mane [1] ta chai
+0 or Bearer দরকার নাই
+
+---------
+
+
+jwt.verify() তিনটা কাজ করে:
+
+1. Token এর signature check করে
+
+দেখে এটা আসলেই তোমার server বানিয়েছে কিনা
+
+2. Token expire হয়েছে কিনা check করে
+3. Token এর ভিতরের data বের করে
+
+
+-------
+
+Token এর ভিতরে কী থাকে?
+
+যখন তুমি login এ token বানাও:
+
+jwt.sign(
+  { id: user._id, role: "user" },
+  process.env.JWT_SECRET,
+  { expiresIn: '7d' }
+);
+
+Token এর ভিতরে payload থাকে:
+
+{
+  "id": "65abc123...",
+  "role": "user",
+  "iat": 1700000000,
+  "exp": 1700600000
+}
+
+--------
+
+তাহলে decoded কী হবে?
+const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+👉 decoded হবে সেই payload object
+
+for Example:
+
+decoded = {
+  id: "65abc123...",
+  role: "user",
+  iat: 1700000000,
+  exp: 1700600000
+}
+
+---------
+
+Step 2: req.user = decoded; কেন?
+req.user = decoded;
+
+এটা খুব গুরুত্বপূর্ণ 🔥
+
+👉 আমরা decoded data request এর সাথে attach করছি
+👉 যাতে পরের route/controller এটা ব্যবহার করতে পারে
+
+---------
+সহজ ভাষায় পুরো বিষয়টা - লাইন কী করছে
+1. jwt.verify()	- Token আসল কিনা check + ভিতরের data বের
+2. decoded	- Token এর payload
+3. req.user = decoded	- সেই data request এ attach
+
+🔥 Real-life analogy ভাবো:
+
+JWT = ID card
+
+jwt.verify() = গার্ড ID check করছে
+
+decoded = ID card এ লেখা তথ্য
+
+req.user = গার্ড তোমার তথ্য system এ ঢুকিয়ে দিল

@@ -1,0 +1,47 @@
+Here's everything you built so far:
+1. Project Structure
+project/
+├── config/
+│   └── database.js
+├── controllers/
+│   └── userController.js
+│   └── authController.js
+├── middleware/
+│   └── hashPassword.js
+│   └── authMiddleware.js
+├── models/
+│   └── userModel.js
+├── routes/
+│   └── userRoutes.js
+│   └── authRoutes.js
+├── utils/
+│   └── generateToken.js
+├── .env
+└── index.js
+
+2. What each part does
+database.js → connects to MongoDB Atlas
+userModel.js → defines user schema (username, email, password, timestamps)
+userController.js → CRUD operations (getUsers, getUsersById, createUser, updateUser, deleteUser)
+authController.js → register (create user + token) and login (check password + token)
+hashPassword.js → middleware that hashes password before saving to DB
+authMiddleware.js → middleware that verifies JWT token on protected routes
+generateToken.js → utility that creates JWT token
+userRoutes.js → CRUD routes, protected with JWT
+authRoutes.js → register and login routes
+3. API endpoints
+MethodEndpointAccessPOST/api/auth/registerPublicPOST/api/auth/loginPublicGET/api/usersProtectedGET/api/users/:idProtectedPOST/api/usersPublicPUT/api/users/:idProtectedDELETE/api/users/:idProtected
+
+4. Sequence you learned
+Model → Controller → Middleware → Routes → index.js
+
+5. Errors you fixed
+
+Missing => in arrow functions
+Wrong status codes (201 vs 200)
+/app/auth typo → /api/auth
+Missing require on generateToken
+bcrypt.getSalt → bcrypt.genSalt
+Missing return in generateToken
+
+What do you want to build next?

@@ -1,0 +1,49 @@
+
+**How to test in Postman:**
+
+**Register**
+```
+POST http://localhost:3000/api/auth/register
+Body → raw → JSON:
+{
+    "username": "john",
+    "email": "john@gmail.com",
+    "password": "123456"
+}
+```
+
+**Login → copy the token from response**
+```
+POST http://localhost:3000/api/auth/login
+```
+
+**Access protected route**
+```
+GET http://localhost:3000/api/users
+Headers:
+  Authorization: Bearer <paste token here>
+```
+
+---
+
+Your updated folder structure:
+```
+project/
+├── config/
+│   └── db.js
+├── controllers/
+│   └── userController.js
+│   └── authController.js
+├── middleware/
+│   └── hashPassword.js
+│   └── authMiddleware.js
+├── models/
+│   └── userModel.js
+├── routes/
+│   └── userRoutes.js
+│   └── authRoutes.js
+├── utils/
+│   └── generateToken.js        ✅
+├── .env
+└── server.js
+Now restart your server and test again. What do you see?
