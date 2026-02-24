@@ -75,3 +75,72 @@ Part-5
 1. Install bcrypt
 2. Create middleware/hashPassword.js
 3. Update routes/userRoutes.js
+
+------------
+Part-6
+"now i want to work on JWT token middleware"
+
+
+Work follows: Model → Controller → Middleware → Routes → Server.js
+
+1. install npm install jsonwebtoken
+**2. Add to `.env`**
+3. utils/generateToken.js
+4. Create controllers/authController.js — register & login
+5. Create middleware/authMiddleware.js
+6. Create routes/authRoutes.js
+7. Protect your user routes in routes/userRoutes.js
+8. Add auth routes in server.js
+
+
+√ Got it! I'll follow this order from now on:
+1. Business Logic      → controller, model, routes (make it work first)
+2. Middleware          → hashPassword, validation (process the data)
+3. Security           → JWT, protect routes (lock it down)
+
+
+So the pattern will always be:
+make it work → make it clean → make it secure
+
+
+
+
+----------
+Part-7
+"node_modules, .env and many files shold not be on git hub, need to do this for this project."
+1. Create .gitignore file in your root project folder
+That's the minimum. But here's a more complete one for Node.js projects:
+# dependencies
+node_modules/
+
+# environment variables
+.env
+.env.local
+.env.production
+
+# logs
+logs/
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# editor folders
+.vscode/
+.idea/
+
+2. If you already pushed node_modules or .env to GitHub, run:
+git rm -r --cached node_modules
+git rm --cached .env
+git add .
+git commit -m "removed node_modules and .env"
+git push
+
+**3. Create a `.env.example` file** — so others know what variables are needed:
+MONGO_URI=your_mongodb_uri_here
+JWT_SECRET=your_secret_key_here
+JWT_EXPIRE=7d
+
+--------------
